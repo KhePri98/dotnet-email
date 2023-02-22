@@ -5,10 +5,11 @@ namespace Alanyang.DotNetEmail.ApplicationCore.Specifications;
 
 public class EmailRecordNotSentSpecification : Specification<EmailRecord>
 {
-    public EmailRecordNotSentSpecification()
+    public EmailRecordNotSentSpecification(int take)
     {
         Query
             .Where(r => r.IsSent == false)
-            .Include(r => r.Attachments);
+            .Include(r => r.Attachments)
+            .Take(take);
     }
 }

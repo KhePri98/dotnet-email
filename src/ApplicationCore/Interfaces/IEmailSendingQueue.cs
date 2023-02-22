@@ -11,6 +11,6 @@ public interface IEmailSendingQueue
         IEnumerable<string>? cc,
         IEnumerable<string>? bcc,
         IEnumerable<Attachment>? attachments);
-    Task SendEmailAsync();
+    Task SendEmailAsync(int emailCount);
     Task DeleteAlreadySentAsync();
 }

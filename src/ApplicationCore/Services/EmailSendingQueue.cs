@@ -63,9 +63,9 @@ public class EmailSendingQueue : IEmailSendingQueue
         await _emailRecordRepository.DeleteRangeAsync(records);
     }
 
-    public async Task SendEmailAsync()
+    public async Task SendEmailAsync(int emailCount)
     {
-        var recordSpec = new EmailRecordNotSentSpecification();
+        var recordSpec = new EmailRecordNotSentSpecification(emailCount);
         var records = await _emailRecordRepository.ListAsync(recordSpec);
 
         for (int i = records.Count - 1; i >= 0; i--)

@@ -1,6 +1,7 @@
 using Alanyang.DotNetEmail.Infrastructure.Data;
 using Alanyang.DotNetEmail.Infrastructure.Options;
 using Alanyang.DotNetEmail.WebApp.Configuration;
+using Alanyang.DotNetEmail.WebApp.Options;
 using Alanyang.DotNetEmail.WebApp.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,8 @@ builder.Services.AddDbContext<ApplicationContext>(options => {
 });
 
 builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("Email"));
+builder.Services
+    .Configure<TimedEmailSendingOptions>(builder.Configuration.GetSection("TimedEmailSendingOptions"));
 
 // Add background services
 builder.Services.AddHostedService<TimedEmailSendingService>();

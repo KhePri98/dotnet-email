@@ -115,8 +115,8 @@ public class DemoModel : PageModel
     
     public async Task<IActionResult> OnPostSendFromQueueAsync()
     {
-        await _emailSendingQueue.SendEmailAsync();
-        Message = "已從queue寄送";
+        await _emailSendingQueue.SendEmailAsync(5);
+        Message = "已從queue寄送5封信";
         return Page();
     }
 }

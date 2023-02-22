@@ -1,4 +1,6 @@
 using Alanyang.DotNetEmail.ApplicationCore.Interfaces;
+using Alanyang.DotNetEmail.WebApp.Options;
+using Microsoft.Extensions.Options;
 
 namespace Alanyang.DotNetEmail.WebApp.Services;
 
@@ -6,14 +8,18 @@ public class TimedEmailSendingService : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<TimedEmailSendingService> _logger;
-    private readonly TimeSpan _period = TimeSpan.FromSeconds(30);
+    private readonly TimedEmailSendingOptions _options;
+    private readonly TimeSpan _period;
 
     public TimedEmailSendingService(
         IServiceProvider serviceProvider,
-        ILogger<TimedEmailSendingService> logger)
+        ILogger<TimedEmailSendingService> logger,
+        IOptions<TimedEmailSendingOptions> options)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
+        _options = options.Value;
+        _period = TimeSpan.FromMinutes(_options.PeriodInMinute);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,6 +40,6 @@ public class TimedEmailSendingService : BackgroundService
         using var scope = _serviceProvider.CreateScope();
         var scopedService = scope.ServiceProvider.GetRequiredService<IEmailSendingQueue>();
 
-        await scopedService.SendEmailAsync();
+        await scopedService.SendEmailAsync(_options.SendsPerTime);
     }
 }
