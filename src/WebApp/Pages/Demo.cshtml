@@ -1,0 +1,63 @@
+@page
+@model DemoModel
+@{
+    ViewData["Title"] = "Email Demo";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Email Demo</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="EmailModel.Email" class="control-label"></label>
+                    <input asp-for="EmailModel.Email" class="form-control" />
+                    <span asp-validation-for="EmailModel.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmailModel.Cc" class="control-label"></label>
+                    <input asp-for="EmailModel.Cc" class="form-control" />
+                    <span asp-validation-for="EmailModel.Cc" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmailModel.Bcc" class="control-label"></label>
+                    <input asp-for="EmailModel.Bcc" class="form-control" />
+                    <span asp-validation-for="EmailModel.Bcc" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmailModel.Subject" class="control-label"></label>
+                    <input asp-for="EmailModel.Subject" class="form-control" />
+                    <span asp-validation-for="EmailModel.Subject" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmailModel.Text" class="control-label"></label>
+                    <input asp-for="EmailModel.Text" class="form-control" />
+                    <span asp-validation-for="EmailModel.Text" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EmailModel.FormFile" class="control-label"></label>
+                    <input asp-for="EmailModel.FormFile" class="form-control" />
+                    <span asp-validation-for="EmailModel.FormFile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary">寄出</button>
+                    <button asp-page-handler="AddToQueue" class="btn btn-secondary">加到queue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-page-handler="SendFromQueue" method="post">
+                <button class="btn btn-secondary">寄送queue內信件</button>
+            </form>
+        </div>
+    </div>
+    <h3 class="clearfix">@Model.Message</h3>
+</div>
+
+@section Scripts
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
